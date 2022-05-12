@@ -20,6 +20,5 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 		<until-successful maxRetries="3" doc:name="Until Successful" doc:id="092ad8b3-0e2d-45aa-a45c-4b2cbca32d2b" millisBetweenRetries="1000">
 			<set-variable value="#[vars.a + 10]" doc:name="Set Variable" doc:id="277221f5-4515-415e-b4ce-f1fc1b12d39b" variableName="a"/>
 		</until-successful>
-		<logger level="INFO" doc:name="Logger" doc:id="9a571f76-6423-4fa2-a936-5a8b2273245c" message="#[vars.a]"/>
 	</flow>
 </mule>
