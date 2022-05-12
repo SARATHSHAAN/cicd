@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="c859800d-a161-43a6-9d5f-9b6cae454a23" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="78f964ab-e023-426e-a5db-6235247e81b9" >
+		<http:request-connection host="localhost" port="8082" />
+	</http:request-config>
+	<flow name="until-successful-demoFlow" doc:id="886281c6-83ce-43fe-952f-55d3d137584f" >
+		<http:listener doc:name="Listener" doc:id="09e4f0e1-349b-42e6-98fb-964904ce15d8" config-ref="HTTP_Listener_config" path="/untilsuccessful">
+			<http:error-response >
+				<http:body ><![CDATA[#[output application/json --- error.errorType]]]></http:body>
+			</http:error-response>
+		</http:listener>
+		<set-variable value="10" doc:name="Set Variable" doc:id="8a17da81-d109-4044-816f-9b48b5b9f34d" variableName="a"/>
+		<until-successful maxRetries="3" doc:name="Until Successful" doc:id="092ad8b3-0e2d-45aa-a45c-4b2cbca32d2b" millisBetweenRetries="1000">
+			<set-variable value="#[vars.a + 10]" doc:name="Set Variable" doc:id="277221f5-4515-415e-b4ce-f1fc1b12d39b" variableName="a"/>
+		</until-successful>
+		<logger level="INFO" doc:name="Logger" doc:id="9a571f76-6423-4fa2-a936-5a8b2273245c" message="#[vars.a]"/>
+	</flow>
+</mule>
